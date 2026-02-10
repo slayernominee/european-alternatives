@@ -1,0 +1,13 @@
+# Serve the Vite-built SPA from dist/
+RewriteEngine On
+
+# Skip requests already targeting dist/
+RewriteCond %{REQUEST_URI} ^/dist/ [NC]
+RewriteRule ^ - [L]
+
+# Serve existing files from dist/
+RewriteCond %{DOCUMENT_ROOT}/dist%{REQUEST_URI} -f
+RewriteRule ^ dist%{REQUEST_URI} [L]
+
+# SPA fallback: all other routes serve dist/index.html
+RewriteRule ^ dist/index.html [L]
