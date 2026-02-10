@@ -14,6 +14,7 @@
     "sortName": "Name (A-Z)",
     "sortCountry": "Land",
     "sortCategory": "Kategorie",
+    "sortTrustScore": "Trust-Score",
     "gridView": "Rasteransicht",
     "listView": "Listenansicht",
     "filters": "Filter",
@@ -21,7 +22,18 @@
     "categoryTitle": "Kategorie",
     "countryTitle": "Land",
     "pricingTitle": "Preismodell",
-    "openSourceOnly": "Nur Open Source"
+    "openSourceOnly": "Nur Open Source",
+    "trustTitle": "Vertrauen & Vetting",
+    "minTrust": "Mindest-Trust-Score",
+    "minTrustAny": "Beliebiger Score",
+    "minTrust5": "5+ ausreichend und besser",
+    "minTrust7": "7+ gut und besser",
+    "minTrust8": "8+ hohes Vertrauen",
+    "status": {
+      "vetted-approved": "Geprueft freigegeben",
+      "research": "Rechercheprofil",
+      "vetted-rejected": "Geprueft abgelehnt"
+    }
   },
   "card": {
     "showMore": "Mehr anzeigen",
@@ -35,6 +47,46 @@
     "visitWebsite": "{{name}}-Webseite besuchen (öffnet in neuem Tab)",
     "website": "Webseite",
     "github": "{{name}} auf GitHub (öffnet in neuem Tab)",
-    "githubLabel": "GitHub"
+    "githubLabel": "GitHub",
+    "trustScore": "Trust-Score",
+    "trustScoreLabel": "{{score}} / 10",
+    "trustSummary": "Trust-Score {{score}} von 10, {{tier}}, Status {{status}}",
+    "trustSectionTitle": "Trust-Transparenz",
+    "trustTierLabel": "Stufe",
+    "trustConfidenceLabel": "Sicherheit",
+    "trustTier": {
+      "excellent": "Ausgezeichnet",
+      "good": "Gut",
+      "fair": "Akzeptabel",
+      "poor": "Kritisch"
+    },
+    "trustConfidence": {
+      "high": "Hoch",
+      "medium": "Mittel",
+      "low": "Niedrig"
+    },
+    "trustReasons": {
+      "european-jurisdiction": "Europaeische Jurisdiktion und Datensouveraenitaet",
+      "non-eu-exception": "Als nicht-europaeische Open-Source-Ausnahme aufgenommen",
+      "open-source-full": "Kernprodukt ist vollstaendig Open Source",
+      "open-source-partial": "Teilweise Open Source oder Open-Core-Modell",
+      "closed-source": "Closed Source reduziert Nachpruefbarkeit",
+      "github-transparency": "Oeffentliches Code-Repository verbessert Transparenz",
+      "self-hosting-possible": "Self-Hosting/Offline/Foederation reduziert Lock-in",
+      "privacy-centric-features": "Datenschutzorientierte Produktmerkmale",
+      "vetted-approved": "Vollstaendiges Vetting mit Freigabe abgeschlossen",
+      "vetted-rejected": "Vollstaendiges Vetting mit Ablehnung abgeschlossen",
+      "not-fully-vetted": "Rechercheprofil wartet auf tieferes Vetting",
+      "reservations-present": "Bekannte Vorbehalte reduzieren den Score"
+    },
+    "reservations": "Vorbehalte",
+    "reservationsCount_one": "{{count}} Vorbehalt",
+    "reservationsCount_other": "{{count}} Vorbehalte",
+    "reservationSeverity": {
+      "minor": "Leichter Vorbehalt",
+      "moderate": "Mittlerer Vorbehalt",
+      "major": "Schwerer Vorbehalt"
+    },
+    "reservationSource": "Quelle"
   }
 }

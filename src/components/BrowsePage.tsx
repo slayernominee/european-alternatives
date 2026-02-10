@@ -1,55 +1,55 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import i18n from '../i18n';
 import { motion } from 'framer-motion';
 import { alternatives, categories } from '../data';
 import AlternativeCard from './AlternativeCard';
 import Filters from './Filters';
-import type { CategoryId, CountryCode, SelectedFilters, SortBy, ViewMode } from '../types';
+import { getLocalizedAlternativeDescription } from '../utils/alternativeText';
+import type { CategoryId, CountryCode, SelectedFilters, SortBy, VettingStatus, ViewMode } from '../types';
 
-const validCategoryIds = new Set<string>(categories.map((c) => c.id));
+const validCategoryIds = new Set<string>(categories.map((category) => category.id));
+const defaultVettingStatuses: VettingStatus[] = ['vetted-approved', 'research'];
 
 export default function BrowsePage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { t } = useTranslation('browse');
+  const { t, i18n } = useTranslation('browse');
 
-  // Stable ref for setSearchParams to avoid dependency array issues
   const setSearchParamsRef = useRef(setSearchParams);
   useEffect(() => {
     setSearchParamsRef.current = setSearchParams;
   }, [setSearchParams]);
 
-  // URL is the source of truth for category and search term.
-  // Deriving these from searchParams (instead of local state) ensures
-  // external navigations (e.g. LandingPage category links) are reflected.
   const searchTerm = searchParams.get('q') ?? '';
   const categoryFilters = useMemo(
-    () => searchParams.getAll('category').filter((c) => validCategoryIds.has(c)) as CategoryId[],
+    () => searchParams.getAll('category').filter((category) => validCategoryIds.has(category)) as CategoryId[],
     [searchParams],
   );
 
-  // Ref tracking the latest URL params to avoid stale reads from
-  // window.location.search when multiple handlers fire in the same tick.
   const latestParamsRef = useRef(new URLSearchParams(searchParams));
   useEffect(() => {
     latestParamsRef.current = new URLSearchParams(searchParams);
   }, [searchParams]);
 
-  // Local-only state (not synced to URL)
   const [countryFilters, setCountryFilters] = useState<CountryCode[]>([]);
   const [pricingFilters, setPricingFilters] = useState<string[]>([]);
   const [openSourceOnly, setOpenSourceOnly] = useState(false);
-  const [sortBy, setSortBy] = useState<SortBy>('name');
+  const [vettingStatusFilters, setVettingStatusFilters] = useState<VettingStatus[]>(defaultVettingStatuses);
+  const [minTrustScore, setMinTrustScore] = useState(1);
+  const [sortBy, setSortBy] = useState<SortBy>('trustScore');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
 
-  // Combined filters for child components
-  const selectedFilters: SelectedFilters = useMemo(() => ({
-    category: categoryFilters,
-    country: countryFilters,
-    pricing: pricingFilters,
-    openSourceOnly,
-  }), [categoryFilters, countryFilters, pricingFilters, openSourceOnly]);
+  const selectedFilters: SelectedFilters = useMemo(
+    () => ({
+      category: categoryFilters,
+      country: countryFilters,
+      pricing: pricingFilters,
+      openSourceOnly,
+      vettingStatus: vettingStatusFilters,
+      minTrustScore,
+    }),
+    [categoryFilters, countryFilters, pricingFilters, openSourceOnly, vettingStatusFilters, minTrustScore],
+  );
 
   const handleSearchChange = useCallback((term: string) => {
     const params = new URLSearchParams(latestParamsRef.current);
@@ -62,13 +62,13 @@ export default function BrowsePage() {
     setSearchParamsRef.current(params, { replace: true });
   }, []);
 
-  const handleFilterChange = useCallback((filterType: keyof SelectedFilters, values: string[] | boolean) => {
+  const handleFilterChange = useCallback((filterType: keyof SelectedFilters, values: string[] | boolean | number) => {
     switch (filterType) {
       case 'category': {
         const params = new URLSearchParams(latestParamsRef.current);
         params.delete('category');
-        for (const cat of values as string[]) {
-          params.append('category', cat);
+        for (const category of values as string[]) {
+          params.append('category', category);
         }
         latestParamsRef.current = params;
         setSearchParamsRef.current(params, { replace: true });
@@ -83,11 +83,15 @@ export default function BrowsePage() {
       case 'openSourceOnly':
         setOpenSourceOnly(values as boolean);
         break;
+      case 'vettingStatus':
+        setVettingStatusFilters(values as VettingStatus[]);
+        break;
+      case 'minTrustScore':
+        setMinTrustScore(values as number);
+        break;
     }
   }, []);
 
-  // Atomic clear: resets filter checkboxes but preserves search term
-  // (search has its own clear button in the input field)
   const handleClearAll = useCallback(() => {
     const params = new URLSearchParams();
     const currentQ = latestParamsRef.current.get('q');
@@ -99,6 +103,8 @@ export default function BrowsePage() {
     setCountryFilters([]);
     setPricingFilters([]);
     setOpenSourceOnly(false);
+    setVettingStatusFilters(defaultVettingStatuses);
+    setMinTrustScore(1);
   }, []);
 
   const filteredAlternatives = useMemo(() => {
@@ -106,36 +112,44 @@ export default function BrowsePage() {
 
     if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase();
-      result = result.filter(
-        (alt) =>
-          alt.name.toLowerCase().includes(term) ||
-          alt.description.toLowerCase().includes(term) ||
-          i18n.t(`data:alternatives.${alt.id}.description`, { defaultValue: '' }).toLowerCase().includes(term) ||
-          alt.replacesUS.some((r) => r.toLowerCase().includes(term)) ||
-          alt.tags.some((tag) => tag.toLowerCase().includes(term))
-      );
+      result = result.filter((alternative) => {
+        const localizedDescription = getLocalizedAlternativeDescription(alternative, i18n.language).toLowerCase();
+        const baseDescription = alternative.description.toLowerCase();
+
+        return (
+          alternative.name.toLowerCase().includes(term) ||
+          baseDescription.includes(term) ||
+          localizedDescription.includes(term) ||
+          alternative.replacesUS.some((replace) => replace.toLowerCase().includes(term)) ||
+          alternative.tags.some((tag) => tag.toLowerCase().includes(term))
+        );
+      });
     }
 
     if (selectedFilters.category.length > 0) {
-      result = result.filter((alt) =>
-        selectedFilters.category.includes(alt.category as CategoryId)
-      );
+      result = result.filter((alternative) => selectedFilters.category.includes(alternative.category as CategoryId));
     }
 
     if (selectedFilters.country.length > 0) {
-      result = result.filter((alt) =>
-        selectedFilters.country.includes(alt.country)
-      );
+      result = result.filter((alternative) => selectedFilters.country.includes(alternative.country));
     }
 
     if (selectedFilters.pricing.length > 0) {
-      result = result.filter((alt) =>
-        selectedFilters.pricing.includes(alt.pricing)
-      );
+      result = result.filter((alternative) => selectedFilters.pricing.includes(alternative.pricing));
     }
 
     if (selectedFilters.openSourceOnly) {
-      result = result.filter((alt) => alt.isOpenSource);
+      result = result.filter((alternative) => alternative.isOpenSource);
+    }
+
+    if (selectedFilters.vettingStatus.length > 0) {
+      result = result.filter((alternative) => {
+        return selectedFilters.vettingStatus.includes(alternative.vettingStatus ?? 'research');
+      });
+    }
+
+    if (selectedFilters.minTrustScore > 1) {
+      result = result.filter((alternative) => (alternative.trustScore ?? 0) >= selectedFilters.minTrustScore);
     }
 
     result.sort((a, b) => {
@@ -146,13 +160,17 @@ export default function BrowsePage() {
           return a.country.localeCompare(b.country);
         case 'category':
           return a.category.localeCompare(b.category);
+        case 'trustScore': {
+          const trustDiff = (b.trustScore ?? 0) - (a.trustScore ?? 0);
+          return trustDiff !== 0 ? trustDiff : a.name.localeCompare(b.name);
+        }
         default:
           return 0;
       }
     });
 
     return result;
-  }, [searchTerm, selectedFilters, sortBy]);
+  }, [searchTerm, selectedFilters, sortBy, i18n.language]);
 
   return (
     <div className="browse-page">
@@ -163,9 +181,7 @@ export default function BrowsePage() {
         transition={{ duration: 0.6 }}
       >
         <h1 className="browse-title">{t('title')}</h1>
-        <p className="browse-subtitle">
-          {t('subtitle')}
-        </p>
+        <p className="browse-subtitle">{t('subtitle')}</p>
       </motion.div>
 
       <motion.div
@@ -190,14 +206,14 @@ export default function BrowsePage() {
 
         {filteredAlternatives.length > 0 ? (
           <div className={`alt-grid${viewMode === 'list' ? ' list-view' : ''}`}>
-            {filteredAlternatives.map((alt, index) => (
+            {filteredAlternatives.map((alternative, index) => (
               <motion.div
-                key={alt.id}
+                key={alternative.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: Math.min(0.1 + index * 0.05, 1) }}
               >
-                <AlternativeCard alternative={alt} viewMode={viewMode} />
+                <AlternativeCard alternative={alternative} viewMode={viewMode} />
               </motion.div>
             ))}
           </div>

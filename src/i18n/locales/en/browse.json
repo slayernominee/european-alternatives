@@ -14,6 +14,7 @@
     "sortName": "Name (A-Z)",
     "sortCountry": "Country",
     "sortCategory": "Category",
+    "sortTrustScore": "Trust Score",
     "gridView": "Grid view",
     "listView": "List view",
     "filters": "Filters",
@@ -21,7 +22,18 @@
     "categoryTitle": "Category",
     "countryTitle": "Country",
     "pricingTitle": "Pricing",
-    "openSourceOnly": "Open Source Only"
+    "openSourceOnly": "Open Source Only",
+    "trustTitle": "Trust & Vetting",
+    "minTrust": "Minimum trust score",
+    "minTrustAny": "Any score",
+    "minTrust5": "5+ fair and above",
+    "minTrust7": "7+ good and above",
+    "minTrust8": "8+ high trust",
+    "status": {
+      "vetted-approved": "Vetted approved",
+      "research": "Research profile",
+      "vetted-rejected": "Vetted rejected"
+    }
   },
   "card": {
     "showMore": "Show more",
@@ -35,6 +47,46 @@
     "visitWebsite": "Visit {{name}} website (opens in new tab)",
     "website": "Website",
     "github": "{{name}} on GitHub (opens in new tab)",
-    "githubLabel": "GitHub"
+    "githubLabel": "GitHub",
+    "trustScore": "Trust Score",
+    "trustScoreLabel": "{{score}} / 10",
+    "trustSummary": "Trust score {{score}} out of 10, {{tier}}, status {{status}}",
+    "trustSectionTitle": "Trust Transparency",
+    "trustTierLabel": "Tier",
+    "trustConfidenceLabel": "Confidence",
+    "trustTier": {
+      "excellent": "Excellent",
+      "good": "Good",
+      "fair": "Fair",
+      "poor": "Poor"
+    },
+    "trustConfidence": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "trustReasons": {
+      "european-jurisdiction": "European jurisdiction and data sovereignty alignment",
+      "non-eu-exception": "Included as a non-EU open-source exception",
+      "open-source-full": "Core product is fully open source",
+      "open-source-partial": "Partially open source or open-core model",
+      "closed-source": "Closed-source product reduces auditability",
+      "github-transparency": "Public code repository improves transparency",
+      "self-hosting-possible": "Self-hosting/offline/federated option reduces lock-in",
+      "privacy-centric-features": "Privacy-oriented product features and positioning",
+      "vetted-approved": "Full vetting finished with approval outcome",
+      "vetted-rejected": "Full vetting finished with rejection outcome",
+      "not-fully-vetted": "Research-only profile pending deeper vetting",
+      "reservations-present": "Known reservations and caveats lower score"
+    },
+    "reservations": "Reservations",
+    "reservationsCount_one": "{{count}} reservation",
+    "reservationsCount_other": "{{count}} reservations",
+    "reservationSeverity": {
+      "minor": "Minor concern",
+      "moderate": "Moderate concern",
+      "major": "Major concern"
+    },
+    "reservationSource": "Source"
   }
 }

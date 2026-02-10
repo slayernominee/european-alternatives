@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { categories } from '../data';
+import { getLocalizedAlternativeDescription, getLocalizedReservationText } from '../utils/alternativeText';
 import type { Alternative, ViewMode } from '../types';
 
 interface AlternativeCardProps {
@@ -12,16 +13,22 @@ interface AlternativeCardProps {
 export default function AlternativeCard({ alternative, viewMode }: AlternativeCardProps) {
   const [expanded, setExpanded] = useState(false);
   const [logoError, setLogoError] = useState(false);
-  const { t } = useTranslation(['browse', 'common', 'data']);
+  const { t, i18n } = useTranslation(['browse', 'common', 'data']);
 
-  const category = categories.find((c) => c.id === alternative.category);
-  const translatedDescription = t(`data:alternatives.${alternative.id}.description`, { defaultValue: alternative.description });
+  const category = categories.find((entry) => entry.id === alternative.category);
+  const translatedDescription = getLocalizedAlternativeDescription(alternative, i18n.language);
   const description = (() => {
     if (viewMode !== 'grid' || translatedDescription.length <= 120) return translatedDescription;
     const truncated = translatedDescription.slice(0, 120);
     const lastSpace = truncated.lastIndexOf(' ');
-    return (lastSpace > 80 ? truncated.slice(0, lastSpace) : truncated).trim() + '...';
+    return `${(lastSpace > 80 ? truncated.slice(0, lastSpace) : truncated).trim()}...`;
   })();
+
+  const trustScore = alternative.trustScore ?? 1;
+  const trustTier = alternative.trustTier ?? 'poor';
+  const trustConfidence = alternative.trustConfidence ?? 'low';
+  const vettingStatus = alternative.vettingStatus ?? 'research';
+  const reservations = alternative.reservations ?? [];
 
   return (
     <motion.div
@@ -54,6 +61,27 @@ export default function AlternativeCard({ alternative, viewMode }: AlternativeCa
             </span>
           )}
         </div>
+      </div>
+
+      <div
+        className={`alt-card-trust alt-card-trust-${trustTier}`}
+        aria-label={t('browse:card.trustSummary', {
+          score: trustScore,
+          tier: t(`browse:card.trustTier.${trustTier}`),
+          status: t(`browse:filters.status.${vettingStatus}`),
+        })}
+      >
+        <div className="alt-card-trust-label">
+          <span className="alt-card-trust-title">{t('browse:card.trustScore')}</span>
+          <span className="alt-card-trust-tier">{t(`browse:card.trustTier.${trustTier}`)}</span>
+        </div>
+        <div className="alt-card-trust-bar-track">
+          <div className="alt-card-trust-bar-fill" style={{ width: `${trustScore * 10}%` }} />
+        </div>
+        <span className="alt-card-trust-value">{t('browse:card.trustScoreLabel', { score: trustScore })}</span>
+        <span className={`alt-card-status-badge ${vettingStatus}`}>
+          {t(`browse:filters.status.${vettingStatus}`)}
+        </span>
       </div>
 
       <p className="alt-card-description">{description}</p>
@@ -117,6 +145,33 @@ export default function AlternativeCard({ alternative, viewMode }: AlternativeCa
                 <p className="alt-detail-text">{translatedDescription}</p>
               </div>
 
+              <div className="alt-detail-section">
+                <h4 className="alt-detail-title">{t('browse:card.trustSectionTitle')}</h4>
+                <div className="alt-detail-meta">
+                  <div className="alt-detail-meta-item">
+                    <span className="alt-detail-meta-label">{t('browse:card.trustScore')}</span>
+                    <span className="alt-detail-meta-value">{t('browse:card.trustScoreLabel', { score: trustScore })}</span>
+                  </div>
+                  <div className="alt-detail-meta-item">
+                    <span className="alt-detail-meta-label">{t('browse:card.trustTierLabel')}</span>
+                    <span className="alt-detail-meta-value">{t(`browse:card.trustTier.${trustTier}`)}</span>
+                  </div>
+                  <div className="alt-detail-meta-item">
+                    <span className="alt-detail-meta-label">{t('browse:card.trustConfidenceLabel')}</span>
+                    <span className="alt-detail-meta-value">{t(`browse:card.trustConfidence.${trustConfidence}`)}</span>
+                  </div>
+                </div>
+                {alternative.trustRationale && alternative.trustRationale.length > 0 && (
+                  <ul className="alt-detail-rationale-list">
+                    {alternative.trustRationale.map((reason) => (
+                      <li key={reason} className="alt-detail-rationale-item">
+                        {t(`browse:card.trustReasons.${reason}`)}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
               {(alternative.foundedYear != null || alternative.headquartersCity || alternative.license) && (
                 <div className="alt-detail-section">
                   <h4 className="alt-detail-title">{t('browse:card.details')}</h4>
@@ -143,6 +198,49 @@ export default function AlternativeCard({ alternative, viewMode }: AlternativeCa
                       </div>
                     )}
                   </div>
+                </div>
+              )}
+
+              {reservations.length > 0 && (
+                <div className="alt-detail-section">
+                  <h4 className="alt-detail-title alt-detail-title-reservations">
+                    {t('browse:card.reservations')}
+                    <span className="alt-detail-reservation-count">
+                      {t('browse:card.reservationsCount', { count: reservations.length })}
+                    </span>
+                  </h4>
+                  <ul className="alt-detail-reservations-list">
+                    {reservations.map((reservation) => (
+                      <li key={reservation.id} className={`alt-detail-reservation-item ${reservation.severity}`}>
+                        <p className="alt-detail-reservation-text">
+                          {getLocalizedReservationText(reservation, i18n.language)}
+                        </p>
+                        <div className="alt-detail-reservation-meta">
+                          <span className="alt-detail-reservation-severity">
+                            {t(`browse:card.reservationSeverity.${reservation.severity}`)}
+                          </span>
+                          {reservation.date && (
+                            <span className="alt-detail-reservation-date">
+                              {new Date(reservation.date).toLocaleDateString(
+                                i18n.language.startsWith('de') ? 'de-DE' : 'en-US',
+                                { year: 'numeric', month: 'long' },
+                              )}
+                            </span>
+                          )}
+                          {reservation.sourceUrl && (
+                            <a
+                              href={reservation.sourceUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="alt-detail-reservation-source"
+                            >
+                              {t('browse:card.reservationSource')}
+                            </a>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
 

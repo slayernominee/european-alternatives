@@ -1,21 +1,18 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { categories } from '../data';
-import type { SelectedFilters, SortBy, ViewMode } from '../types';
-
-const countryCodes = [
-  'de', 'fr', 'nl', 'se', 'fi', 'es', 'it', 'at',
-  'ch', 'no', 'dk', 'pl', 'cz', 'ie', 'pt', 'ee', 'gb',
-] as const;
+import { alternatives, categories } from '../data';
+import type { SelectedFilters, SortBy, ViewMode, VettingStatus } from '../types';
 
 const pricingKeys = ['free', 'freemium', 'paid'] as const;
+const defaultVisibleStatuses: VettingStatus[] = ['vetted-approved', 'research'];
+const allVettingStatuses: VettingStatus[] = ['vetted-approved', 'research', 'vetted-rejected'];
 
 interface FiltersProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
   selectedFilters: SelectedFilters;
-  onFilterChange: (filterType: keyof SelectedFilters, values: string[] | boolean) => void;
+  onFilterChange: (filterType: keyof SelectedFilters, values: string[] | boolean | number) => void;
   onClearAll: () => void;
   sortBy: SortBy;
   onSortChange: (sort: SortBy) => void;
@@ -23,6 +20,10 @@ interface FiltersProps {
   onViewModeChange: (mode: ViewMode) => void;
   totalCount: number;
   filteredCount: number;
+}
+
+function hasSameStatuses(selected: VettingStatus[], expected: VettingStatus[]) {
+  return selected.length === expected.length && expected.every((status) => selected.includes(status));
 }
 
 export default function Filters({
@@ -41,20 +42,25 @@ export default function Filters({
   const [showFilters, setShowFilters] = useState(false);
   const { t } = useTranslation(['browse', 'common', 'data']);
 
+  const countryCodes = useMemo(
+    () => Array.from(new Set(alternatives.map((alternative) => alternative.country))).sort(),
+    [],
+  );
+
+  const hasCustomStatusFilter = !hasSameStatuses(selectedFilters.vettingStatus, defaultVisibleStatuses);
+
   const hasActiveFilters =
     selectedFilters.category.length > 0 ||
     selectedFilters.country.length > 0 ||
     selectedFilters.pricing.length > 0 ||
-    selectedFilters.openSourceOnly;
+    selectedFilters.openSourceOnly ||
+    hasCustomStatusFilter ||
+    selectedFilters.minTrustScore > 1;
 
-  const clearAllFilters = () => {
-    onClearAll();
-  };
-
-  const toggleFilter = (type: 'category' | 'country' | 'pricing', value: string) => {
+  const toggleFilter = (type: 'category' | 'country' | 'pricing' | 'vettingStatus', value: string) => {
     const current = selectedFilters[type] as string[];
     const updated = current.includes(value)
-      ? current.filter((v) => v !== value)
+      ? current.filter((currentValue) => currentValue !== value)
       : [...current, value];
     onFilterChange(type, updated);
   };
@@ -69,7 +75,7 @@ export default function Filters({
           type="text"
           placeholder={t('browse:filters.searchPlaceholder')}
           value={searchTerm}
-          onChange={(e) => onSearchChange(e.target.value)}
+          onChange={(event) => onSearchChange(event.target.value)}
           aria-label={t('browse:filters.searchLabel')}
         />
         {searchTerm && (
@@ -94,12 +100,13 @@ export default function Filters({
           <div className="filters-sort">
             <select
               value={sortBy}
-              onChange={(e) => onSortChange(e.target.value as SortBy)}
+              onChange={(event) => onSortChange(event.target.value as SortBy)}
               aria-label={t('browse:filters.sortBy')}
             >
               <option value="name">{t('browse:filters.sortName')}</option>
               <option value="country">{t('browse:filters.sortCountry')}</option>
               <option value="category">{t('browse:filters.sortCategory')}</option>
+              <option value="trustScore">{t('browse:filters.sortTrustScore')}</option>
             </select>
             <svg className="sort-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M7 10l5 5 5-5z"/>
@@ -143,7 +150,7 @@ export default function Filters({
       </div>
 
       {hasActiveFilters && (
-        <button className="filters-clear" onClick={clearAllFilters}>
+        <button className="filters-clear" onClick={onClearAll}>
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
           </svg>
@@ -164,13 +171,13 @@ export default function Filters({
             <div className="filters-section-content">
               <div className="filters-group">
                 <h4 className="filters-group-title">{t('browse:filters.categoryTitle')}</h4>
-                {categories.map((cat) => (
-                  <label key={cat.id} className="filter-label">
+                {categories.map((category) => (
+                  <label key={category.id} className="filter-label">
                     <input
                       type="checkbox"
                       className="filter-checkbox"
-                      checked={selectedFilters.category.includes(cat.id)}
-                      onChange={() => toggleFilter('category', cat.id)}
+                      checked={selectedFilters.category.includes(category.id)}
+                      onChange={() => toggleFilter('category', category.id)}
                     />
                     <span className="filter-checkbox-custom">
                       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -178,8 +185,8 @@ export default function Filters({
                       </svg>
                     </span>
                     <span className="filter-label-text">
-                      <span className="filter-emoji">{cat.emoji}</span>
-                      {t(`data:categories.${cat.id}.name`)}
+                      <span className="filter-emoji">{category.emoji}</span>
+                      {t(`data:categories.${category.id}.name`)}
                     </span>
                   </label>
                 ))}
@@ -202,7 +209,7 @@ export default function Filters({
                     </span>
                     <span className="filter-label-text">
                       <span className={`fi fi-${code} filter-flag`}></span>
-                      {t(`data:countries.${code}`)}
+                      {t(`data:countries.${code}`, { defaultValue: code.toUpperCase() })}
                     </span>
                   </label>
                 ))}
@@ -243,6 +250,46 @@ export default function Filters({
                   </span>
                   <span className="filter-label-text">{t('browse:filters.openSourceOnly')}</span>
                 </label>
+              </div>
+
+              <div className="filters-group">
+                <h4 className="filters-group-title">{t('browse:filters.trustTitle')}</h4>
+
+                <label className="filter-label">
+                  <span className="filter-label-text">{t('browse:filters.minTrust')}</span>
+                  <select
+                    className="filters-inline-select"
+                    value={selectedFilters.minTrustScore}
+                    onChange={(event) => onFilterChange('minTrustScore', Number(event.target.value))}
+                    aria-label={t('browse:filters.minTrust')}
+                  >
+                    <option value={1}>{t('browse:filters.minTrustAny')}</option>
+                    <option value={5}>{t('browse:filters.minTrust5')}</option>
+                    <option value={7}>{t('browse:filters.minTrust7')}</option>
+                    <option value={8}>{t('browse:filters.minTrust8')}</option>
+                  </select>
+                </label>
+
+                <div className="filter-separator" />
+
+                {allVettingStatuses.map((status) => (
+                  <label key={status} className="filter-label">
+                    <input
+                      type="checkbox"
+                      className="filter-checkbox"
+                      checked={selectedFilters.vettingStatus.includes(status)}
+                      onChange={() => toggleFilter('vettingStatus', status)}
+                    />
+                    <span className="filter-checkbox-custom">
+                      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                      </svg>
+                    </span>
+                    <span className="filter-label-text">
+                      {t(`browse:filters.status.${status}`)}
+                    </span>
+                  </label>
+                ))}
               </div>
             </div>
           </motion.div>

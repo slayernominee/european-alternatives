@@ -36,6 +36,16 @@
   --error: #ef4444;
   --info: #3b82f6;
 
+  /* Trust palette */
+  --trust-excellent: #10b981;
+  --trust-good: #3b82f6;
+  --trust-fair: #f59e0b;
+  --trust-poor: #ef4444;
+  --trust-excellent-10: rgba(16, 185, 129, 0.1);
+  --trust-good-10: rgba(59, 130, 246, 0.1);
+  --trust-fair-10: rgba(245, 158, 11, 0.1);
+  --trust-poor-10: rgba(239, 68, 68, 0.1);
+
   /* Opacity variants */
   --accent-primary-10: rgba(108, 53, 222, 0.1);
   --warning-10: rgba(245, 158, 11, 0.1);
@@ -1089,6 +1099,22 @@ button:disabled {
   pointer-events: none;
 }
 
+.filters-inline-select {
+  margin-left: auto;
+  appearance: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: var(--font-size-xs);
+}
+
+.filters-inline-select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
 .filters-view-toggle {
   display: flex;
   background: var(--bg-input);
@@ -1371,6 +1397,7 @@ button:disabled {
 
 .alt-card.list-view .alt-card-replaces,
 .alt-card.list-view .alt-card-badges,
+.alt-card.list-view .alt-card-trust,
 .alt-card.list-view .alt-card-expand,
 .alt-card.list-view .alt-card-details {
   flex: 0 0 100%;
@@ -1442,6 +1469,137 @@ button:disabled {
 
 .alt-card-category-emoji {
   margin-right: var(--spacing-xs);
+}
+
+/* Trust score */
+.alt-card-trust {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+}
+
+.alt-card-trust-excellent {
+  background: var(--trust-excellent-10);
+  border-color: var(--trust-excellent);
+}
+
+.alt-card-trust-good {
+  background: var(--trust-good-10);
+  border-color: var(--trust-good);
+}
+
+.alt-card-trust-fair {
+  background: var(--trust-fair-10);
+  border-color: var(--trust-fair);
+}
+
+.alt-card-trust-poor {
+  background: var(--trust-poor-10);
+  border-color: var(--trust-poor);
+}
+
+.alt-card-trust-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 5.5rem;
+}
+
+.alt-card-trust-title {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.alt-card-trust-tier {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.alt-card-trust-excellent .alt-card-trust-tier {
+  color: var(--trust-excellent);
+}
+
+.alt-card-trust-good .alt-card-trust-tier {
+  color: var(--trust-good);
+}
+
+.alt-card-trust-fair .alt-card-trust-tier {
+  color: var(--trust-fair);
+}
+
+.alt-card-trust-poor .alt-card-trust-tier {
+  color: var(--trust-poor);
+}
+
+.alt-card-trust-bar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  min-width: 80px;
+}
+
+.alt-card-trust-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow);
+}
+
+.alt-card-trust-excellent .alt-card-trust-bar-fill {
+  background: var(--trust-excellent);
+}
+
+.alt-card-trust-good .alt-card-trust-bar-fill {
+  background: var(--trust-good);
+}
+
+.alt-card-trust-fair .alt-card-trust-bar-fill {
+  background: var(--trust-fair);
+}
+
+.alt-card-trust-poor .alt-card-trust-bar-fill {
+  background: var(--trust-poor);
+}
+
+.alt-card-trust-value {
+  font-size: var(--font-size-sm);
+  font-family: var(--font-family-heading);
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.alt-card-status-badge {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  border: 1px solid var(--border-color);
+}
+
+.alt-card-status-badge.vetted-approved {
+  color: var(--success);
+  border-color: var(--success);
+  background: var(--success-10);
+}
+
+.alt-card-status-badge.research {
+  color: var(--warning);
+  border-color: var(--warning);
+  background: var(--warning-10);
+}
+
+.alt-card-status-badge.vetted-rejected {
+  color: var(--error);
+  border-color: var(--error);
+  background: rgba(239, 68, 68, 0.1);
 }
 
 /* Description */
@@ -1622,6 +1780,92 @@ button:disabled {
   border-radius: var(--radius-sm);
   background: var(--bg-secondary);
   color: var(--text-secondary);
+}
+
+.alt-detail-rationale-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.alt-detail-rationale-item {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+.alt-detail-title-reservations {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  color: var(--warning);
+}
+
+.alt-detail-reservation-count {
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text-muted);
+}
+
+.alt-detail-reservations-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.alt-detail-reservation-item {
+  border: 1px solid var(--border-color);
+  border-left-width: 3px;
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--bg-secondary);
+}
+
+.alt-detail-reservation-item.minor {
+  border-left-color: var(--warning);
+}
+
+.alt-detail-reservation-item.moderate {
+  border-left-color: var(--accent-secondary);
+}
+
+.alt-detail-reservation-item.major {
+  border-left-color: var(--error);
+}
+
+.alt-detail-reservation-text {
+  margin: 0 0 var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.alt-detail-reservation-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.alt-detail-reservation-severity {
+  font-weight: 600;
+}
+
+.alt-detail-reservation-source {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* Detail meta section */

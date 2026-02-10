@@ -29,6 +29,7 @@ This is not about nationalism. It's about choice, transparency, and building a h
 
 - **Browse by category** — Email, Cloud Storage, Messaging, AI, Payments, and 13 more
 - **Filter by country, pricing, and open-source status** — find exactly what you need
+- **Trust Score (1-10) + vetting status** — transparent scoring with reservations and confidence level
 - **Search across all alternatives** — matches names, descriptions, tags, and replaced services
 - **Grid and list views** — switch between compact overview and detailed display
 - **Shareable category and search filters** — category and search term are stored in the URL for direct linking
@@ -78,6 +79,7 @@ The site will be available at `http://localhost:5173`.
 npm run build     # Type-check and build for production
 npm run preview   # Preview the production build locally
 npm run lint      # Run ESLint
+npm run generate:research  # Regenerate research catalogue from tmp/european-alternatives-master-research.md
 ```
 
 ## Project Structure
@@ -92,14 +94,39 @@ src/
 │   ├── AlternativeCard.tsx  # Individual alternative display
 │   └── Filters.tsx      # Search, filter, and sort controls
 ├── data/
-│   ├── alternatives.ts  # The catalogue — add new alternatives here
-│   ├── categories.ts    # Category definitions
-│   └── index.ts         # Re-exports
+│   ├── alternatives.ts         # Final merged catalogue + trust overlays
+│   ├── manualAlternatives.ts   # Hand-curated seed entries
+│   ├── researchAlternatives.ts # Generated from master research markdown
+│   ├── trustOverrides.ts       # Vetting status/reservations/score overrides
+│   ├── categories.ts           # Category definitions
+│   └── index.ts                # Re-exports
 ├── types/
 │   └── index.ts         # TypeScript interfaces
+├── utils/
+│   ├── trustScore.ts    # Trust scoring engine
+│   └── alternativeText.ts  # Localized text helpers
+├── scripts/
+│   └── generate-research-catalog.mjs # Markdown to TS dataset generator
 ├── index.css            # Full design system
 └── main.tsx             # Entry point
 ```
+
+## Trust Method
+
+Each listing includes:
+- Trust Score (1-10)
+- Trust Tier (Excellent, Good, Fair, Poor)
+- Trust Confidence (High, Medium, Low)
+- Vetting Status (vetted approved, research profile, or vetted rejected)
+- Reservations (specific caveats with severity)
+
+Scoring is deterministic and evidence-weighted:
+- Rewards European jurisdiction, open-source transparency, and privacy/self-hosting signals
+- Applies reservation penalties by severity
+- Uses vetted outcomes from `tmp/vetted/*-approved.md` and `tmp/vetted/*-rejected.md` where available
+- Keeps non-vetted entries visible with lower confidence so coverage stays broad while certainty stays explicit
+
+Full formula and rationale: `docs/TRUST-METHODOLOGY.md`.
 
 ## Contributing
 
@@ -112,7 +139,7 @@ See [**CONTRIBUTING.md**](CONTRIBUTING.md) for the full guide, including:
 - Coding standards and commit conventions
 - Design system guidelines
 
-The fastest way to contribute: add a European alternative you know and love to `src/data/alternatives.ts`.
+The fastest way to contribute: add or improve an entry in `tmp/european-alternatives-master-research.md` and run `npm run generate:research`.
 
 ## License
 

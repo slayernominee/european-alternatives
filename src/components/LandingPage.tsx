@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { alternatives, categories } from '../data';
+import { getLocalizedAlternativeDescription } from '../utils/alternativeText';
 
 const stagger = {
   initial: {},
@@ -28,7 +29,12 @@ export default function LandingPage() {
   ).length;
   const totalCountries = new Set(alternatives.map((a) => a.country)).size;
   const openSourceCount = alternatives.filter((a) => a.isOpenSource).length;
-  const featured = alternatives[0] ?? null;
+  const vettedApprovedCount = alternatives.filter((a) => a.vettingStatus === 'vetted-approved').length;
+  const averageTrustScore = Math.round(
+    alternatives.reduce((sum, entry) => sum + (entry.trustScore ?? 0), 0) / Math.max(alternatives.length, 1),
+  );
+  const featured = [...alternatives]
+    .sort((a, b) => (b.trustScore ?? 0) - (a.trustScore ?? 0))[0] ?? null;
   const [featuredLogoError, setFeaturedLogoError] = useState(false);
 
   return (
@@ -73,6 +79,16 @@ export default function LandingPage() {
             <div className="landing-stats-item">
               <span className="landing-stats-number">{openSourceCount}</span>
               <span className="landing-stats-label">{t('landing:stats.openSource')}</span>
+            </div>
+            <div className="landing-stats-divider" />
+            <div className="landing-stats-item">
+              <span className="landing-stats-number">{vettedApprovedCount}</span>
+              <span className="landing-stats-label">{t('landing:stats.vetted')}</span>
+            </div>
+            <div className="landing-stats-divider" />
+            <div className="landing-stats-item">
+              <span className="landing-stats-number">{averageTrustScore}</span>
+              <span className="landing-stats-label">{t('landing:stats.averageTrust')}</span>
             </div>
           </motion.div>
         )}
@@ -140,7 +156,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <p className="landing-featured-description">
-                {t(`data:alternatives.${featured.id}.description`, { defaultValue: featured.description })}
+                {getLocalizedAlternativeDescription(featured, lang ?? 'en')}
               </p>
               <div className="landing-featured-replaces">
                 <span className="landing-featured-replaces-label">{t('common:replaces')}</span>

@@ -6,7 +6,9 @@
     "categories": "Categories",
     "country_one": "Country",
     "country_other": "Countries",
-    "openSource": "Open Source"
+    "openSource": "Open Source",
+    "vetted": "Vetted Approved",
+    "averageTrust": "Avg Trust"
   },
   "browseByCategory": "Browse by Category",
   "alternative_one": "{{count}} alternative",
