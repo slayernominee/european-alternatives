@@ -19,6 +19,9 @@ export interface Alternative {
   headquartersCity?: string;
   license?: string;
   reservations?: Reservation[];
+  trustScore?: number;
+  trustScoreStatus?: TrustScoreStatus;
+  trustScoreBreakdown?: TrustScoreBreakdown;
 }
 
 export interface Reservation {
@@ -36,7 +39,7 @@ export type CountryCode =
   | 'lt' | 'lu' | 'mt' | 'nl' | 'pl' | 'pt' | 'ro' | 'sk'
   | 'si' | 'es' | 'se'
   | 'ch' | 'no' | 'gb' | 'is'
-  | 'eu';
+  | 'eu' | 'us';
 
 export type CategoryId =
   | 'cloud-storage'
@@ -68,6 +71,15 @@ export interface Category {
 
 export type OpenSourceLevel = 'full' | 'partial' | 'none';
 export type ReservationSeverity = 'minor' | 'moderate' | 'major';
+export type TrustScoreStatus = 'pending' | 'ready';
+
+export interface TrustScoreBreakdown {
+  jurisdiction: number;
+  openness: number;
+  privacySignals: number;
+  reservationPenalty: number;
+  usCapApplied: boolean;
+}
 
 export type SortBy = 'name' | 'country' | 'category';
 export type ViewMode = 'grid' | 'list';

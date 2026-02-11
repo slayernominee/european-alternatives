@@ -2,6 +2,7 @@ import type { Alternative } from '../types';
 import { manualAlternatives } from './manualAlternatives';
 import { researchAlternatives } from './researchAlternatives';
 import { reservationsById } from './trustOverrides';
+import { calculateTrustScore } from '../utils/trustScore';
 
 function mergeCatalogue(): Alternative[] {
   const deduped = new Map<string, Alternative>();
@@ -15,11 +16,20 @@ function mergeCatalogue(): Alternative[] {
 
   const merged = Array.from(deduped.values()).map((alternative) => {
     const reservations = alternative.reservations ?? reservationsById[alternative.id] ?? [];
+    const trustScore = calculateTrustScore({
+      country: alternative.country,
+      isOpenSource: alternative.isOpenSource,
+      openSourceLevel: alternative.openSourceLevel,
+      tags: alternative.tags,
+      reservations,
+    });
 
     return {
       ...alternative,
       logo: alternative.logo ?? `/logos/${alternative.id}.svg`,
       reservations,
+      trustScoreStatus: 'pending' as const,
+      trustScoreBreakdown: trustScore.breakdown,
     };
   });
 

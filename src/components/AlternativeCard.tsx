@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { categories } from '../data';
-import { getLocalizedAlternativeDescription, getLocalizedReservationText } from '../utils/alternativeText';
+import { getLocalizedAlternativeDescription } from '../utils/alternativeText';
 import type { Alternative, ViewMode } from '../types';
 
 interface AlternativeCardProps {
@@ -24,7 +24,7 @@ export default function AlternativeCard({ alternative, viewMode }: AlternativeCa
     return `${(lastSpace > 80 ? truncated.slice(0, lastSpace) : truncated).trim()}...`;
   })();
 
-  const reservations = alternative.reservations ?? [];
+  const isTrustScorePending = alternative.trustScoreStatus !== 'ready';
 
   return (
     <motion.div
@@ -80,6 +80,11 @@ export default function AlternativeCard({ alternative, viewMode }: AlternativeCa
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
             </svg>
             {t('common:openSource')}
+          </span>
+        )}
+        {isTrustScorePending && (
+          <span className="alt-card-badge alt-card-badge-trust-pending">
+            {t('browse:card.trustScorePending')}
           </span>
         )}
         {alternative.tags.slice(0, 2).map((tag) => (
@@ -146,49 +151,6 @@ export default function AlternativeCard({ alternative, viewMode }: AlternativeCa
                       </div>
                     )}
                   </div>
-                </div>
-              )}
-
-              {reservations.length > 0 && (
-                <div className="alt-detail-section">
-                  <h4 className="alt-detail-title alt-detail-title-reservations">
-                    {t('browse:card.reservations')}
-                    <span className="alt-detail-reservation-count">
-                      {t('browse:card.reservationsCount', { count: reservations.length })}
-                    </span>
-                  </h4>
-                  <ul className="alt-detail-reservations-list">
-                    {reservations.map((reservation) => (
-                      <li key={reservation.id} className={`alt-detail-reservation-item ${reservation.severity}`}>
-                        <p className="alt-detail-reservation-text">
-                          {getLocalizedReservationText(reservation, i18n.language)}
-                        </p>
-                        <div className="alt-detail-reservation-meta">
-                          <span className="alt-detail-reservation-severity">
-                            {t(`browse:card.reservationSeverity.${reservation.severity}`)}
-                          </span>
-                          {reservation.date && (
-                            <span className="alt-detail-reservation-date">
-                              {new Date(reservation.date).toLocaleDateString(
-                                i18n.language.startsWith('de') ? 'de-DE' : 'en-US',
-                                { year: 'numeric', month: 'long' },
-                              )}
-                            </span>
-                          )}
-                          {reservation.sourceUrl && (
-                            <a
-                              href={reservation.sourceUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="alt-detail-reservation-source"
-                            >
-                              {t('browse:card.reservationSource')}
-                            </a>
-                          )}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               )}
 

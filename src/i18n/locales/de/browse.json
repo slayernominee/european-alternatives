@@ -36,6 +36,7 @@
     "website": "Webseite",
     "github": "{{name}} auf GitHub (öffnet in neuem Tab)",
     "githubLabel": "GitHub",
+    "trustScorePending": "Trust-Score ausstehend",
     "reservations": "Vorbehalte",
     "reservationsCount_one": "{{count}} Vorbehalt",
     "reservationsCount_other": "{{count}} Vorbehalte",

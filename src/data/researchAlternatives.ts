@@ -38,7 +38,7 @@ export const researchAlternatives: Alternative[] = [
     "id": "bitwarden",
     "name": "Bitwarden",
     "category": "password-manager",
-    "country": "eu",
+    "country": "us",
     "replacesUS": [
       "LastPass",
       "1Password",
@@ -949,7 +949,7 @@ export const researchAlternatives: Alternative[] = [
     "id": "ollama",
     "name": "Ollama",
     "category": "ai-ml",
-    "country": "eu",
+    "country": "us",
     "replacesUS": [
       "OpenAI API",
       "Google AI",

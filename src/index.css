@@ -1385,6 +1385,12 @@ button:disabled {
   color: var(--text-muted);
 }
 
+.alt-card-badge-trust-pending {
+  background: var(--warning-10);
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
 /* Expand button */
 .alt-card-expand {
   display: flex;
@@ -1468,74 +1474,6 @@ button:disabled {
   border-radius: var(--radius-sm);
   background: var(--bg-secondary);
   color: var(--text-secondary);
-}
-
-.alt-detail-title-reservations {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  color: var(--warning);
-}
-
-.alt-detail-reservation-count {
-  font-family: var(--font-family);
-  font-size: var(--font-size-xs);
-  font-weight: 400;
-  text-transform: none;
-  letter-spacing: normal;
-  color: var(--text-muted);
-}
-
-.alt-detail-reservations-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.alt-detail-reservation-item {
-  border: 1px solid var(--border-color);
-  border-left-width: 3px;
-  border-radius: var(--radius-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-  background: var(--bg-secondary);
-}
-
-.alt-detail-reservation-item.minor {
-  border-left-color: var(--warning);
-}
-
-.alt-detail-reservation-item.moderate {
-  border-left-color: var(--accent-secondary);
-}
-
-.alt-detail-reservation-item.major {
-  border-left-color: var(--error);
-}
-
-.alt-detail-reservation-text {
-  margin: 0 0 var(--spacing-xs);
-  font-size: var(--font-size-sm);
-  color: var(--text-secondary);
-}
-
-.alt-detail-reservation-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-xs);
-  color: var(--text-muted);
-}
-
-.alt-detail-reservation-severity {
-  font-weight: 600;
-}
-
-.alt-detail-reservation-source {
-  text-decoration: underline;
-  text-underline-offset: 2px;
 }
 
 /* Detail meta section */

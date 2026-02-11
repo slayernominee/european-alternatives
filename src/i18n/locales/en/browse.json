@@ -36,6 +36,7 @@
     "website": "Website",
     "github": "{{name}} on GitHub (opens in new tab)",
     "githubLabel": "GitHub",
+    "trustScorePending": "Trust-Score Pending",
     "reservations": "Reservations",
     "reservationsCount_one": "{{count}} reservation",
     "reservationsCount_other": "{{count}} reservations",

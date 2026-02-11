@@ -59,6 +59,16 @@ function parsePricing(raw) {
 }
 
 function parseCountryCode(countryRaw) {
+  const low = countryRaw.toLowerCase();
+  if (
+    low.includes('us-based') ||
+    low.includes('united states') ||
+    /\busa\b/.test(low) ||
+    /\b(santa barbara|palo alto),\s*ca\b/.test(low)
+  ) {
+    return 'us';
+  }
+
   const match = countryRaw.match(/^([A-Z]{2,3})\b/);
   if (!match) return 'eu';
   return match[1].slice(0, 2).toLowerCase();

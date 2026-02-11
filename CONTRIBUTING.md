@@ -132,6 +132,8 @@ All country codes below are valid in the type system. Note that the browse page'
 
 **Other European:** CH, NO, GB, IS
 
+**Open-source exception:** US (only for clearly open-source entries that fit project scope)
+
 **Multi-country:** `eu` (for pan-European services)
 
 ---
