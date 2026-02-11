@@ -107,3 +107,22 @@ export function calculateTrustScore(
     },
   };
 }
+
+export function getEffectiveTrustScore(
+  alternative: Pick<
+    Alternative,
+    'country' | 'isOpenSource' | 'openSourceLevel' | 'tags' | 'reservations' | 'trustScore'
+  >,
+): number {
+  if (alternative.trustScore != null) {
+    return alternative.trustScore;
+  }
+
+  return calculateTrustScore({
+    country: alternative.country,
+    isOpenSource: alternative.isOpenSource,
+    openSourceLevel: alternative.openSourceLevel,
+    tags: alternative.tags,
+    reservations: alternative.reservations,
+  }).score;
+}

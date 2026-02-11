@@ -11,6 +11,7 @@
     "clearSearch": "Clear search",
     "count": "{{filtered}} of {{total}} alternatives",
     "sortBy": "Sort by",
+    "sortTrustScore": "Trust score (high to low)",
     "sortName": "Name (A-Z)",
     "sortCountry": "Country",
     "sortCategory": "Category",

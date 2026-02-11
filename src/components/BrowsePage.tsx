@@ -6,6 +6,7 @@ import { alternatives, categories } from '../data';
 import AlternativeCard from './AlternativeCard';
 import Filters from './Filters';
 import { getLocalizedAlternativeDescription } from '../utils/alternativeText';
+import { getEffectiveTrustScore } from '../utils/trustScore';
 import type { CategoryId, CountryCode, SelectedFilters, SortBy, ViewMode } from '../types';
 
 const validCategoryIds = new Set<string>(categories.map((category) => category.id));
@@ -33,7 +34,7 @@ export default function BrowsePage() {
   const [countryFilters, setCountryFilters] = useState<CountryCode[]>([]);
   const [pricingFilters, setPricingFilters] = useState<string[]>([]);
   const [openSourceOnly, setOpenSourceOnly] = useState(false);
-  const [sortBy, setSortBy] = useState<SortBy>('name');
+  const [sortBy, setSortBy] = useState<SortBy>('trustScore');
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
 
   const selectedFilters: SelectedFilters = useMemo(
@@ -132,6 +133,11 @@ export default function BrowsePage() {
 
     result.sort((a, b) => {
       switch (sortBy) {
+        case 'trustScore': {
+          const trustDelta = getEffectiveTrustScore(b) - getEffectiveTrustScore(a);
+          if (trustDelta !== 0) return trustDelta;
+          return a.name.localeCompare(b.name);
+        }
         case 'name':
           return a.name.localeCompare(b.name);
         case 'country':

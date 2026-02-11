@@ -93,6 +93,7 @@ export default function Filters({
               onChange={(event) => onSortChange(event.target.value as SortBy)}
               aria-label={t('browse:filters.sortBy')}
             >
+              <option value="trustScore">{t('browse:filters.sortTrustScore')}</option>
               <option value="name">{t('browse:filters.sortName')}</option>
               <option value="country">{t('browse:filters.sortCountry')}</option>
               <option value="category">{t('browse:filters.sortCategory')}</option>

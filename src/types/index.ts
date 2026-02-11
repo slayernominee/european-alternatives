@@ -92,7 +92,7 @@ export interface TrustScoreBreakdown {
   usCapApplied: boolean;
 }
 
-export type SortBy = 'name' | 'country' | 'category';
+export type SortBy = 'trustScore' | 'name' | 'country' | 'category';
 export type ViewMode = 'grid' | 'list';
 
 export interface SelectedFilters {
