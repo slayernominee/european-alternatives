@@ -1,6 +1,7 @@
 {
   "headline": "European Alternatives",
   "subtext": "Discover European and open-source alternatives to US tech giants. Support digital sovereignty, data privacy, and local innovation.",
+  "nudge": "This is not here to force anyone to switch, especially not immediately. It is here to show that Europe already has strong alternatives we can actually use, and that we are not behind in tech.",
   "stats": {
     "alternatives": "Alternatives",
     "categories": "Categories",
@@ -11,7 +12,7 @@
   "browseByCategory": "Browse by Category",
   "alternative_one": "{{count}} alternative",
   "alternative_other": "{{count}} alternatives",
-  "replacesGiants": "Replaces {{giants}}",
+  "replacesGiants": "Alternatives to {{giants}}",
   "visit": "Visit {{name}}",
   "seeAll": "See All Alternatives",
   "values": {
@@ -27,6 +28,40 @@
       "title": "Open Source Options",
       "description": "Transparent, auditable, and community-driven software you can trust"
     }
+  },
+  "scoreContext": {
+    "title": "Why some US vendors score lower",
+    "intro": "In many cases this is structural, not personal: strong products can still carry higher trust risk because of legal jurisdiction, data-transfer exposure, and centralized data flows.",
+    "usFactorsTitle": "Key structural reasons",
+    "factors": {
+      "fisa": {
+        "title": "FISA Section 702 and EO 12333",
+        "text": "US intelligence frameworks can enable broad collection on non-US persons and create legal conflict with EU privacy expectations."
+      },
+      "cloudAct": {
+        "title": "CLOUD Act style legal reach",
+        "text": "US-headquartered providers can face lawful-access demands even when customer data is stored or processed in European regions."
+      },
+      "transfers": {
+        "title": "EU-US transfer complexity (DPF/SCC)",
+        "text": "Transfer frameworks help operations, but they do not fully remove sovereignty, redress, or compliance uncertainty in every case."
+      },
+      "metadata": {
+        "title": "Metadata remains highly revealing",
+        "text": "Even with end-to-end encryption, metadata such as contacts, timing, and location-linked activity can still expose sensitive patterns."
+      },
+      "brokeredData": {
+        "title": "Commercially acquired data pipelines",
+        "text": "Public reports show agencies can also buy app/web ecosystem data from brokers, extending visibility beyond one single service."
+      }
+    },
+    "openSource": {
+      "title": "Why open source often scores higher",
+      "text": "Open-source software can be audited, forked, self-hosted, and hardened by independent communities. When collection is minimized and infrastructure is under your control, jurisdiction and opacity risk are reduced."
+    },
+    "videoPrefix": "The kickoff research video is published on",
+    "videoLinkLabel": "The Morpheus Vlogs on YouTube",
+    "videoSuffix": "."
   },
   "browseAlternatives": "Browse Alternatives",
   "disclaimer": {

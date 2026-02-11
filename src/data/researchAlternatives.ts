@@ -809,20 +809,24 @@ export const researchAlternatives: Alternative[] = [
     ],
     "pricing": "paid",
     "website": "https://www.mollie.com",
-    "description": "Dutch payment service provider offering a simple, pay-per-transaction model with no setup fees, no monthly charges, and no lock-in contracts. Mollie supports 25+ payment methods including iDEAL, SEPA, Klarna, and credit cards — making it the go-to Stripe alternative for European merchants.",
+    "description": "Dutch payment service provider and regulated e-money institution focused on European merchants, with broad local-method coverage, API tooling, and public status transparency. Core tradeoffs are typical PSP constraints (reserves/termination mechanics), AI-related processing language in privacy terms, and security exposure in popular third-party plugin integrations if patching is delayed.",
     "localizedDescriptions": {
-      "de": "Niederländischer Zahlungsdienstleister mit einem einfachen Pay-per-Transaction-Modell ohne Einrichtungsgebühren, Monatskosten oder Vertragsbindung. Mollie unterstützt über 25 Zahlungsmethoden wie iDEAL, SEPA, Klarna und Kreditkarten — die erste Wahl als Stripe-Alternative für europäische Händler."
+      "de": "Niederlaendischer Zahlungsdienstleister und reguliertes E-Geld-Institut mit Fokus auf europaeische Haendler, breiter lokaler Zahlungsmethoden-Abdeckung, API-Tooling und oeffentlicher Status-Transparenz. Zentrale Trade-offs sind typische PSP-Einschraenkungen (Reserven/Kuendigungsmechanik), KI-bezogene Verarbeitungszwecke in den Privacy-Texten sowie Sicherheitsrisiken in populaeren Drittanbieter-Plugin-Integrationen bei verzoegertem Patchen."
     },
     "isOpenSource": false,
     "openSourceLevel": "none",
     "tags": [
       "payments",
-      "paid",
-      "stripe",
-      "paypal"
+      "psp",
+      "regulated-fintech",
+      "api",
+      "ecommerce",
+      "risk-controls",
+      "privacy"
     ],
     "foundedYear": 2004,
-    "headquartersCity": "Amsterdam"
+    "headquartersCity": "Amsterdam",
+    "githubUrl": "https://github.com/mollie"
   },
   {
     "id": "mullvad-browser",
@@ -1268,24 +1272,27 @@ export const researchAlternatives: Alternative[] = [
     ],
     "pricing": "paid",
     "website": "https://plausible.io",
-    "description": "Lightweight, open-source web analytics built in the EU. Plausible is cookie-free, fully GDPR-compliant by design, and delivers clear traffic insights in a single-page dashboard — no complex setup or consent banners required.",
+    "description": "Estonian privacy-first web analytics with a strong open-source Community Edition and optional hosted SaaS. Plausible is cookie-free, self-hostable, and offers CSV/Stats API export, while buyers should still account for open-core licensing boundaries and enterprise assurance gaps.",
     "localizedDescriptions": {
-      "de": "Leichtgewichtige, quelloffene Webanalyse aus der EU. Plausible kommt ohne Cookies aus, ist von Grund auf DSGVO-konform und liefert klare Traffic-Einblicke auf einem einzigen Dashboard — ohne aufwendige Einrichtung oder Cookie-Banner."
+      "de": "Datenschutzorientierte Webanalyse aus Estland mit starker Open-Source-Community-Edition und optionalem Hosted-SaaS. Plausible arbeitet cookiefrei, ist self-hostbar und bietet CSV-/Stats-API-Export; zugleich sollten Open-Core-Lizenzgrenzen und fehlende Enterprise-Assurance-Nachweise mitbewertet werden."
     },
     "isOpenSource": true,
-    "openSourceLevel": "full",
+    "openSourceLevel": "partial",
     "tags": [
       "analytics",
       "paid",
       "open-source",
+      "privacy",
+      "self-hosted",
       "gdpr",
       "google-analytics",
-      "mixpanel"
+      "mixpanel",
+      "amplitude"
     ],
     "foundedYear": 2018,
     "headquartersCity": "Tartu",
     "githubUrl": "https://github.com/plausible/analytics",
-    "license": "AGPL-3.0"
+    "license": "AGPL-3.0 (Community Edition) + source-available commercial features"
   },
   {
     "id": "posteo",

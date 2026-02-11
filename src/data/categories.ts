@@ -10,17 +10,17 @@ export const categories: Category[] = [
   },
   {
     id: 'email',
-    name: 'Email',
-    description: 'Email providers and services',
+    name: 'Email Services',
+    description: 'Hosted email providers and suites',
     emoji: '✉️',
-    usGiants: ['Gmail', 'Outlook', 'Yahoo Mail'],
+    usGiants: ['Gmail', 'Outlook.com', 'Yahoo Mail'],
   },
   {
     id: 'mail-client',
-    name: 'Mail Client',
-    description: 'Desktop and mobile email clients',
+    name: 'Mail Clients',
+    description: 'Desktop and mobile email apps',
     emoji: '📨',
-    usGiants: ['Outlook'],
+    usGiants: ['Microsoft Outlook (Desktop)'],
   },
   {
     id: 'search-engine',
@@ -42,6 +42,13 @@ export const categories: Category[] = [
     description: 'Instant messaging and communication',
     emoji: '💬',
     usGiants: ['WhatsApp', 'iMessage', 'Discord', 'Slack'],
+  },
+  {
+    id: 'meeting-software',
+    name: 'Meeting Software',
+    description: 'Video conferencing and online meeting tools',
+    emoji: '🎥',
+    usGiants: ['Google Meet', 'Microsoft Teams', 'Zoom'],
   },
   {
     id: 'video-hosting',
@@ -126,6 +133,13 @@ export const categories: Category[] = [
     description: 'Payment processing and fintech',
     emoji: '💳',
     usGiants: ['Stripe', 'PayPal', 'Square'],
+  },
+  {
+    id: 'smart-home',
+    name: 'Smart Home',
+    description: 'Smart home hubs and home automation platforms',
+    emoji: '🏠',
+    usGiants: ['Google Home', 'Amazon Alexa', 'Apple HomeKit', 'Samsung SmartThings'],
   },
   {
     id: 'ecommerce',

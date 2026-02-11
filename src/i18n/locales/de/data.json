@@ -1,11 +1,12 @@
 {
   "categories": {
     "cloud-storage": { "name": "Cloud-Speicher", "description": "Dateispeicher- und Synchronisierungsdienste" },
-    "email": { "name": "E-Mail", "description": "E-Mail-Anbieter und -Dienste" },
-    "mail-client": { "name": "Mail-Client", "description": "Desktop- und mobile E-Mail-Clients" },
+    "email": { "name": "E-Mail-Dienste", "description": "Gehostete E-Mail-Anbieter und Suiten" },
+    "mail-client": { "name": "Mail-Clients", "description": "Desktop- und mobile E-Mail-Apps" },
     "search-engine": { "name": "Suchmaschine", "description": "Web-Suchmaschinen" },
     "social-media": { "name": "Soziale Medien", "description": "Soziale Netzwerke und Plattformen" },
     "messaging": { "name": "Messaging", "description": "Instant Messaging und Kommunikation" },
+    "meeting-software": { "name": "Meeting-Software", "description": "Videokonferenz- und Online-Meeting-Tools" },
     "video-hosting": { "name": "Video-Hosting", "description": "Videoplattformen und Streaming" },
     "office-suite": { "name": "Office-Paket", "description": "Dokumentbearbeitung und Zusammenarbeit" },
     "maps": { "name": "Karten & Navigation", "description": "Karten- und Navigationsdienste" },
@@ -18,6 +19,7 @@
     "ai-ml": { "name": "KI & Maschinelles Lernen", "description": "Plattformen und Tools für künstliche Intelligenz" },
     "hosting": { "name": "Cloud & Hosting", "description": "Webhosting und Cloud-Infrastruktur" },
     "payments": { "name": "Zahlungen", "description": "Zahlungsabwicklung und Fintech" },
+    "smart-home": { "name": "Smart Home", "description": "Smart-Home-Hubs und Hausautomationsplattformen" },
     "ecommerce": { "name": "E-Commerce", "description": "Online-Shop-Plattformen" },
     "other": { "name": "Sonstiges", "description": "Weitere Tools und Dienste" }
   },

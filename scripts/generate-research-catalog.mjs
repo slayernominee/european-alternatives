@@ -23,6 +23,7 @@ const sectionToCategory = {
   'AI & Machine Learning': 'ai-ml',
   'Cloud & Hosting': 'hosting',
   'Payments': 'payments',
+  'Smart Home': 'smart-home',
   'E-Commerce': 'ecommerce',
 };
 
@@ -111,6 +112,7 @@ const keywordToTag = [
   ['maps', 'maps'],
   ['hosting', 'hosting'],
   ['payments', 'payments'],
+  ['smart home', 'smart-home'],
   ['e-commerce', 'ecommerce'],
   ['ecommerce', 'ecommerce'],
   ['office', 'office-suite'],

@@ -47,6 +47,10 @@ export default function LandingPage() {
           <p className="landing-subtext">
             {t('landing:subtext')}
           </p>
+
+          <p className="landing-nudge">
+            {t('landing:nudge')}
+          </p>
         </motion.div>
 
         {/* Stats Bar */}
@@ -140,6 +144,58 @@ export default function LandingPage() {
             <span>{t('landing:values.openSource.description')}</span>
           </div>
         </motion.div>
+
+        <motion.section className="landing-score-context" variants={fadeUp}>
+          <h2 className="landing-section-title">{t('landing:scoreContext.title')}</h2>
+          <p className="landing-score-context-intro">{t('landing:scoreContext.intro')}</p>
+
+          <div className="landing-score-context-grid">
+            <div className="landing-score-context-card">
+              <h3>{t('landing:scoreContext.usFactorsTitle')}</h3>
+              <ul className="landing-score-context-list">
+                <li>
+                  <strong>{t('landing:scoreContext.factors.fisa.title')}</strong>
+                  <span>{t('landing:scoreContext.factors.fisa.text')}</span>
+                </li>
+                <li>
+                  <strong>{t('landing:scoreContext.factors.cloudAct.title')}</strong>
+                  <span>{t('landing:scoreContext.factors.cloudAct.text')}</span>
+                </li>
+                <li>
+                  <strong>{t('landing:scoreContext.factors.transfers.title')}</strong>
+                  <span>{t('landing:scoreContext.factors.transfers.text')}</span>
+                </li>
+                <li>
+                  <strong>{t('landing:scoreContext.factors.metadata.title')}</strong>
+                  <span>{t('landing:scoreContext.factors.metadata.text')}</span>
+                </li>
+                <li>
+                  <strong>{t('landing:scoreContext.factors.brokeredData.title')}</strong>
+                  <span>{t('landing:scoreContext.factors.brokeredData.text')}</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="landing-score-context-card">
+              <h3>{t('landing:scoreContext.openSource.title')}</h3>
+              <p className="landing-score-context-open-source-text">
+                {t('landing:scoreContext.openSource.text')}
+              </p>
+              <p className="landing-score-context-video">
+                {t('landing:scoreContext.videoPrefix')}{' '}
+                <a
+                  href="https://www.youtube.com/c/TheMorpheusVlogs"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="landing-note-link"
+                >
+                  {t('landing:scoreContext.videoLinkLabel')}
+                </a>
+                {t('landing:scoreContext.videoSuffix')}
+              </p>
+            </div>
+          </div>
+        </motion.section>
 
         {/* CTA */}
         <motion.div className="landing-buttons" variants={fadeUp}>

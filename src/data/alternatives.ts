@@ -25,6 +25,26 @@ function sanitizeTags(tags: string[]): string[] {
   return sanitized;
 }
 
+function normalizeReplacesUS(names: string[], category: Alternative['category']): string[] {
+  return names.map((name) => {
+    const normalized = name.trim().toLowerCase();
+
+    if (normalized !== 'outlook') {
+      return name;
+    }
+
+    if (category === 'email') {
+      return 'Outlook.com';
+    }
+
+    if (category === 'mail-client') {
+      return 'Microsoft Outlook (Desktop)';
+    }
+
+    return name;
+  });
+}
+
 function mergeCatalogue(): Alternative[] {
   const deduped = new Map<string, Alternative>();
 
@@ -37,6 +57,7 @@ function mergeCatalogue(): Alternative[] {
 
   const merged = Array.from(deduped.values()).map((alternative) => {
     const tags = sanitizeTags(alternative.tags);
+    const replacesUS = normalizeReplacesUS(alternative.replacesUS, alternative.category);
     const reservations = alternative.reservations ?? reservationsById[alternative.id] ?? [];
     const computedTrustScore = calculateTrustScore({
       country: alternative.country,
@@ -51,10 +72,11 @@ function mergeCatalogue(): Alternative[] {
     return {
       ...alternative,
       tags,
+      replacesUS,
       logo: alternative.logo ?? `/logos/${alternative.id}.svg`,
       reservations,
       trustScore,
-      usVendorComparisons: buildUSVendorComparisons(alternative.replacesUS),
+      usVendorComparisons: buildUSVendorComparisons(replacesUS),
       trustScoreStatus,
       trustScoreBreakdown: trustScoreStatus === 'pending' ? computedTrustScore.breakdown : undefined,
     };

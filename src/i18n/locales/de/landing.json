@@ -1,6 +1,7 @@
 {
   "headline": "Europäische Alternativen",
   "subtext": "Entdecke europäische und Open-Source-Alternativen zu US-Tech-Giganten. Unterstütze digitale Souveränität, Datenschutz und lokale Innovation.",
+  "nudge": "Das soll niemanden zum Wechsel zwingen, erst recht nicht sofort. Es soll zeigen, dass Europa bereits starke Alternativen hat, die wir wirklich nutzen können, und dass wir technologisch nicht hinterher sind.",
   "stats": {
     "alternatives": "Alternativen",
     "categories": "Kategorien",
@@ -11,7 +12,7 @@
   "browseByCategory": "Nach Kategorie durchsuchen",
   "alternative_one": "{{count}} Alternative",
   "alternative_other": "{{count}} Alternativen",
-  "replacesGiants": "Ersetzt {{giants}}",
+  "replacesGiants": "Alternativen zu {{giants}}",
   "visit": "{{name}} besuchen",
   "seeAll": "Alle Alternativen anzeigen",
   "values": {
@@ -27,6 +28,40 @@
       "title": "Open-Source-Optionen",
       "description": "Transparente, überprüfbare und von der Community getriebene Software, der du vertrauen kannst"
     }
+  },
+  "scoreContext": {
+    "title": "Warum manche US-Anbieter niedriger scoren",
+    "intro": "Das ist oft strukturell und nicht persönlich: Auch starke Produkte können wegen Rechtsraum, Datentransfers und zentralen Datenflüssen ein höheres Vertrauensrisiko tragen.",
+    "usFactorsTitle": "Zentrale strukturelle Gründe",
+    "factors": {
+      "fisa": {
+        "title": "FISA Section 702 und EO 12333",
+        "text": "US-Geheimdienstrahmen können eine weitreichende Erfassung von Nicht-US-Personen ermöglichen und mit europäischen Datenschutzstandards kollidieren."
+      },
+      "cloudAct": {
+        "title": "Reichweite nach US-Recht (z. B. CLOUD Act)",
+        "text": "US-Hauptsitze können zu rechtmäßigen Herausgaben verpflichtet werden, auch wenn Kundendaten in europäischen Regionen gespeichert oder verarbeitet werden."
+      },
+      "transfers": {
+        "title": "Komplexe EU-US-Transfers (DPF/SCC)",
+        "text": "Transferrahmen helfen operativ, beseitigen aber nicht in jedem Fall Souveränitäts-, Rechtsschutz- und Compliance-Risiken."
+      },
+      "metadata": {
+        "title": "Metadaten bleiben sehr aussagekräftig",
+        "text": "Selbst mit Ende-zu-Ende-Verschlüsselung können Metadaten wie Kontakte, Zeitpunkte und standortbezogene Aktivität sensible Muster offenlegen."
+      },
+      "brokeredData": {
+        "title": "Eingekaufte Datenketten",
+        "text": "Öffentliche Berichte zeigen, dass Behörden zusätzlich App- und Webdaten über Datenhändler einkaufen können und so über einen einzelnen Dienst hinaus Einblick erhalten."
+      }
+    },
+    "openSource": {
+      "title": "Warum Open Source oft höher bewertet wird",
+      "text": "Open-Source-Software ist prüfbar, forkbar, selbst hostbar und durch Communities härtbar. Wenn Datensammlung minimiert wird und die Infrastruktur unter eigener Kontrolle liegt, sinken Rechtsraum- und Intransparenzrisiken."
+    },
+    "videoPrefix": "Das Kickoff-Recherchevideo findest du auf",
+    "videoLinkLabel": "The Morpheus Vlogs auf YouTube",
+    "videoSuffix": "."
   },
   "browseAlternatives": "Alternativen durchsuchen",
   "disclaimer": {

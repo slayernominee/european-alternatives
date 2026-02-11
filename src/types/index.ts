@@ -59,6 +59,7 @@ export type CategoryId =
   | 'search-engine'
   | 'social-media'
   | 'messaging'
+  | 'meeting-software'
   | 'video-hosting'
   | 'office-suite'
   | 'maps'
@@ -71,6 +72,7 @@ export type CategoryId =
   | 'ai-ml'
   | 'hosting'
   | 'payments'
+  | 'smart-home'
   | 'ecommerce'
   | 'other';
 
