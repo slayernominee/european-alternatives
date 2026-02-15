@@ -71,6 +71,7 @@ export type CategoryId =
   | 'maps'
   | 'browser'
   | 'desktop-os'
+  | 'mobile-os'
   | 'vpn'
   | 'analytics'
   | 'project-management'
