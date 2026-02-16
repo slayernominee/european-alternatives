@@ -1,3 +1,15 @@
+# DEPLOYMENT WORKFLOW
+#
+# dist/ is gitignored so developers never commit build artifacts manually.
+# This workflow handles it: on every push to main it builds the project,
+# force-commits dist/ back to main (with [skip ci] to avoid loops), and
+# then deploys to GitHub Pages.
+#
+# Hostinger auto-pulls from main and serves static files from dist/.
+# GitHub Pages gets the same build via the upload-pages-artifact action.
+#
+# TL;DR: just push source changes — dist/ takes care of itself.
+
 name: Deploy to GitHub Pages
 
 on:
