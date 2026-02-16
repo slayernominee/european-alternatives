@@ -590,6 +590,37 @@ export const manualAlternatives: Alternative[] = [
     headquartersCity: 'Luxembourg',
   },
   {
+    id: 'opendesk',
+    name: 'openDesk',
+    description:
+      'German government-backed open-source office and collaboration suite developed by ZenDiS (Centre for Digital Sovereignty). openDesk integrates Collabora Online for documents, Nextcloud for file storage, Open-Xchange for email/calendar, Element for messaging, Jitsi for video conferencing, and OpenProject for task management into a single sovereign workplace platform. Primarily aimed at public administration, but available to private individuals as well via the community edition.',
+    localizedDescriptions: {
+      de: 'Vom deutschen Staat gefoerdertes Open-Source-Buero- und Kollaborationspaket, entwickelt vom ZenDiS (Zentrum fuer Digitale Souveraenitaet). openDesk integriert Collabora Online fuer Dokumente, Nextcloud fuer Dateispeicherung, Open-Xchange fuer E-Mail/Kalender, Element fuer Messaging, Jitsi fuer Videokonferenzen und OpenProject fuer Aufgabenverwaltung in eine einheitliche souveraene Arbeitsplattform. Primaer auf die oeffentliche Verwaltung ausgerichtet, aber auch fuer Privatpersonen ueber die Community-Edition verfuegbar.',
+    },
+    website: 'https://www.opendesk.eu',
+    logo: '/logos/opendesk.svg',
+    country: 'de',
+    category: 'office-suite',
+    replacesUS: ['Microsoft Office', 'Google Workspace'],
+    isOpenSource: true,
+    openSourceLevel: 'full',
+    sourceCodeUrl: 'https://gitlab.opencode.de/bmi/opendesk',
+    pricing: 'freemium',
+    tags: ['office-suite', 'collaboration', 'digital-sovereignty', 'open-source', 'self-hosted', 'gdpr', 'public-administration'],
+    foundedYear: 2023,
+    headquartersCity: 'Bochum',
+    license: 'Apache-2.0 (openDesk integration); component licenses vary (AGPL, MPL, etc.)',
+    reservations: [
+      {
+        id: 'public-administration-focus',
+        text: 'openDesk is primarily designed for public administration. The SaaS offering requires stating an organization (minimum 500 users), though a free community edition is available for self-hosting and "private person" can be selected as organization type.',
+        textDe: 'openDesk ist primaer fuer die oeffentliche Verwaltung konzipiert. Das SaaS-Angebot erfordert die Angabe einer Organisation (mindestens 500 Nutzer), wobei eine kostenlose Community-Edition zum Self-Hosting verfuegbar ist und "Privatperson" als Organisationstyp gewaehlt werden kann.',
+        severity: 'minor',
+        sourceUrl: 'https://www.opendesk.eu/en',
+      },
+    ],
+  },
+  {
     id: 'jitsi',
     name: 'Jitsi',
     logo: '/logos/jitsi.svg',
