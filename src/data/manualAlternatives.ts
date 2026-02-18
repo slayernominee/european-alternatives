@@ -1208,5 +1208,20 @@ export const manualAlternatives: Alternative[] = [
     headquartersCity: 'Berlin',
     license: 'EUPL-1.2',
   },
+  {
+    id: 'simplex',
+    name: 'SimpleX',
+    description: 'decentral, open-source, end-to-end encrypted messenger without unique identifiers.',
+    website: 'https://simplex.chat/',
+    logo: '/logos/simplex.svg',
+    country: 'gb',
+    category: 'messenger',
+    replacesUS: ['WhatsApp', 'Signal', 'iMessage', 'Telegram'],
+    isOpenSource: true,
+    sourceCodeUrl: 'https://github.com/simplex-chat',
+    pricing: 'free',
+    tags: ['messenger', 'decentral', 'anti-censorship', 'GDPR', 'privacy'],
+    license: 'AGPL-3.0',
+  },
 ];
  
